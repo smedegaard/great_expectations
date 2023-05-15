@@ -85,10 +85,10 @@ export default class Prerequisites extends React.Component {
   render () {
     return (
       <div>
-          <ul>
-            {this.defaultPrerequisiteItems()}
-            {this.extractMarkdownListItems().map((prereq, i) => (<li key={i}>{prereq}</li>))}
-          </ul>
+        <ul>
+          {this.defaultPrerequisiteItems()}
+          {this.extractMarkdownListItems().map((prereq, i) => (<li key={i}>{prereq}</li>))}
+        </ul>
       </div>
     )
   }

@@ -8,7 +8,7 @@ const htmlparser2 = require('htmlparser2')
  * @param {string} dirs - The directories of source code to traverse when constructing the map.
  * @returns {object} The "snippet map", which is an object with name, snippet key-value pairs.
  */
-function constructSnippetMap(dirs) {
+function constructSnippetMap (dirs) {
   const snippets = parseSourceDirectories(dirs)
 
   const snippetMap = {}
@@ -32,7 +32,7 @@ function constructSnippetMap(dirs) {
  * @param {string} dirs - The directories to parse for snippet definitions.
  * @returns {object[]} A list of snippet objects parsed from the input directory.
  */
-function parseSourceDirectories(dirs) {
+function parseSourceDirectories (dirs) {
   const files = []
   for (const dir of dirs) {
     for (const file of glob.sync(dir + '/**/*.{py,yml,yaml}')) {
@@ -57,7 +57,7 @@ function parseSourceDirectories(dirs) {
  * @param {string} file - The file to parse for snippet definitions.
  * @returns {object[]} A list of snippet objects parsed from the input file.
  */
-function parseFile(file) {
+function parseFile (file) {
   const data = fs.readFileSync(file, 'utf8')
 
   // The stack here is used to deal with nested snippets.
@@ -69,7 +69,7 @@ function parseFile(file) {
   let snippets = []
 
   const parser = new htmlparser2.Parser({
-    onopentag(tagname, attrs) {
+    onopentag (tagname, attrs) {
       // if snippet at the top of stack doesn't have content
       if (tagname !== 'snippet') {
         // If we see a non-snippet tag, we want to make sure we still append the literal text to our parsed results.
@@ -81,7 +81,7 @@ function parseFile(file) {
       const snippetName = attrs.name
       stack.push({ name: snippetName, file: file, contents: '' })
     },
-    ontext(text) {
+    ontext (text) {
       if (stack.length === 0) {
         return
       }
@@ -92,7 +92,7 @@ function parseFile(file) {
         stack[i].contents += text
       }
     },
-    onclosetag(tagname) {
+    onclosetag (tagname) {
       if (tagname !== 'snippet') {
         return
       }
@@ -122,7 +122,7 @@ function parseFile(file) {
  * @param {string} text - The text to be sanitized.
  * @returns {string} The sanitized string.
  */
-function sanitizeText(text) {
+function sanitizeText (text) {
   // Remove leading carriage return
   if (text.startsWith('\n') || text.startsWith('\r')) {
     text = text.substring(1, text.length)
@@ -139,7 +139,7 @@ function sanitizeText(text) {
   }
 
   // Apply unintent and misc cleanup
-  function unindent(line) {
+  function unindent (line) {
     if (line.startsWith(indent)) {
       line = line.substring(indent.length, text.length)
     }
@@ -161,7 +161,7 @@ function sanitizeText(text) {
  * Note that this is what is run if this file is invoked by Node.
  * An alias `yarn snippet-check` is defined in `package.json` for convenience.
  */
-function getDirs() {
+function getDirs () {
   // Get all directories that should be processed
   const manualDirs = ['../../great_expectations', '../../tests']
   const versionDirs = glob.sync('versioned_code/*/')
@@ -173,7 +173,7 @@ function getDirs() {
   return manualDirs.concat(versionDirs)
 }
 
-function main() {
+function main () {
   const snippets = parseSourceDirectories(getDirs())
   const targetFiles = process.argv.slice(2)
 
@@ -199,4 +199,3 @@ if (require.main === module) {
 }
 
 module.exports = constructSnippetMap
-
