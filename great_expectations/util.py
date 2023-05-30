@@ -45,6 +45,7 @@ from typing import (
     Set,
     SupportsFloat,
     Tuple,
+    TypedDict,
     Union,
     cast,
     overload,
@@ -1255,7 +1256,7 @@ def filter_properties_dict(
 
 @overload
 def deep_filter_properties_iterable(
-    properties: dict,
+    properties: dict | TypedDict,
     keep_fields: Optional[Set[str]] = ...,
     delete_fields: Optional[Set[str]] = ...,
     clean_nulls: bool = ...,
@@ -1319,7 +1320,7 @@ def deep_filter_properties_iterable(
 
 
 def deep_filter_properties_iterable(
-    properties: Union[dict, list, set, tuple, None] = None,
+    properties: Union[dict, TypedDict, list, set, tuple, None] = None,
     keep_fields: Optional[Set[str]] = None,
     delete_fields: Optional[Set[str]] = None,
     clean_nulls: bool = True,
