@@ -19,6 +19,10 @@ from great_expectations.expectations.metrics.map_metric_provider import (
     column_pair_condition_partial,
 )
 
+# to work with PySpark import the compatibility modules
+#from great_expectations.compatibility import pyspark
+#from great_expectations.compatibility.pyspark import functions as F
+
 
 # This class defines a Metric to support your Expectation.
 # For most ColumnPairMapExpectations, the main business logic for calculation will live in this class.
@@ -44,7 +48,7 @@ class ColumnPairValuesMatchSomeCriteria(ColumnPairMapMetricProvider):
 
     # This method defines the business logic for evaluating your metric when using a SparkDFExecutionEngine
     # @column_pair_condition_partial(engine=SparkDFExecutionEngine)
-    # def _spark(cls, column_A, column_B, **kwargs):
+    # def _spark(cls, column_A: pyspark.column, column_B: pyspark.Column, **kwargs):
     #     raise NotImplementedError
 
 
